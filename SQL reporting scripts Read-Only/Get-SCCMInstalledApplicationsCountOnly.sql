@@ -17,41 +17,7 @@ Type        : Read-Only
 
 
 -- ============================================================================
--- TABLE 1: Installed Application Inventory
--- ============================================================================
-
-SELECT
-    rs.Name0 AS ComputerName,
-    bios.SerialNumber0 AS SerialNumber,
-    rs.User_Name0 AS LastLoggedOnUser,
-    rs.AD_Site_Name0 AS ADSite,
-    rs.Distinguished_Name0 AS ADDistinguishedName,
-    rs.Operating_System_Name_and0 AS OperatingSystem,
-
-    arp.DisplayName0 AS ApplicationName,
-    arp.Publisher0 AS Publisher,
-    arp.Version0 AS ApplicationVersion,
-    arp.InstallDate0 AS InstallDate
-
-FROM v_R_System rs
-
-LEFT JOIN v_GS_PC_BIOS bios
-    ON bios.ResourceID = rs.ResourceID
-
-INNER JOIN v_Add_Remove_Programs arp
-    ON arp.ResourceID = rs.ResourceID
-
-WHERE
-    ISNULL(arp.DisplayName0, '') <> ''
-
-ORDER BY
-    rs.Name0,
-    arp.DisplayName0,
-    arp.Version0;
-
-
--- ============================================================================
--- TABLE 2: Application Summary Count
+-- TABLE 1: Application Summary Count
 -- ============================================================================
 
 SELECT
